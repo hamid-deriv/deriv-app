@@ -3,7 +3,7 @@ import { DetailsOfEachMT5Loginid, VerifyEmailResponse } from '@deriv/api-types';
 import { FormikHelpers as FormikActions } from 'formik';
 import { TCFDPasswordFormValues } from './cfd-password-modal';
 
-type CFD_Platform = 'dxtrade' | 'mt5';
+export type CFD_Platform = 'dxtrade' | 'mt5';
 
 export type TCFDChangePasswordConfirmationProps = {
     confirm_label?: string;
