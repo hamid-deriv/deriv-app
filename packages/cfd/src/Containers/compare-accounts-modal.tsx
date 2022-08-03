@@ -41,14 +41,7 @@ const CompareAccountsModal = ({
 }: TCompareAccountsModalProps) => {
     const show_eu_related = (is_logged_in && is_eu) || (!is_logged_in && is_eu_country);
 
-    const mt5_accounts = [
-        landing_companies?.mt_gaming_company?.financial,
-        landing_companies?.mt_financial_company?.financial,
-        landing_companies?.mt_financial_company?.financial_stp,
-    ];
-
-    const cfd_account_button_label =
-        mt5_accounts.filter(Boolean).length === 1 ? localize('Account Information') : localize('Compare accounts');
+    const cfd_account_label = localize('Account Information');
 
     return (
         <>
@@ -59,7 +52,7 @@ const CompareAccountsModal = ({
                 <Button
                     className='cfd-dashboard__welcome-message--button'
                     has_effect
-                    text={cfd_account_button_label}
+                    text={cfd_account_label}
                     onClick={toggleCompareAccounts}
                     secondary
                     disabled={is_loading}
@@ -71,7 +64,7 @@ const CompareAccountsModal = ({
                             disableApp={disableApp}
                             enableApp={enableApp}
                             is_open={is_compare_accounts_visible}
-                            title={cfd_account_button_label}
+                            title={cfd_account_label}
                             toggleModal={toggleCompareAccounts}
                             type='button'
                             height='696px'
@@ -91,7 +84,7 @@ const CompareAccountsModal = ({
                     <MobileWrapper>
                         <MobileDialog
                             portal_element_id='deriv_app'
-                            title={localize('Compare accounts')}
+                            title={cfd_account_label}
                             wrapper_classname='cfd-dashboard__compare-accounts'
                             visible={is_compare_accounts_visible}
                             onClose={toggleCompareAccounts}
