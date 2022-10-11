@@ -5,6 +5,7 @@ import { connect } from 'Stores/connect';
 import CashierLocked from 'Components/cashier-locked';
 import { Virtual } from 'Components/cashier-container';
 import PaymentAgentList from './payment-agent-list';
+import { ProofOfIdentityContainerForMt5 } from '@deriv/account';
 
 const PaymentAgent = ({
     container,
@@ -40,7 +41,13 @@ const PaymentAgent = ({
         return <CashierLocked />;
     }
     return (
-        <PaymentAgentList verification_code={verification_code} is_payment_agent_withdraw={is_payment_agent_withdraw} />
+        <>
+            <ProofOfIdentityContainerForMt5 />
+            <PaymentAgentList
+                verification_code={verification_code}
+                is_payment_agent_withdraw={is_payment_agent_withdraw}
+            />
+        </>
     );
 };
 
