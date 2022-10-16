@@ -30,6 +30,11 @@ const PaymentAgent = ({
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    // eslint-disable-next-line no-unused-vars
+    const onChangeValueHandlerToParent = values => {
+        // console.log('🚀 ~ file: payment-agent.jsx ~ line 34 ~ values', values);
+    };
+
     if (is_switching) {
         return <Loading />;
     }
@@ -42,7 +47,12 @@ const PaymentAgent = ({
     }
     return (
         <React.Fragment>
-            <FormFieldCloner />
+            <FormFieldCloner
+                onChangeValueHandlerToParent={onChangeValueHandlerToParent}
+                name='email'
+                value={['Hamid from props']}
+                display_name='Email address*'
+            />
             {/* <PaymentAgentList
                 verification_code={verification_code}
                 is_payment_agent_withdraw={is_payment_agent_withdraw}
