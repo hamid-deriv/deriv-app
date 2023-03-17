@@ -165,13 +165,12 @@ export default class GeneralStore extends BaseStore {
     }
 
     async onMountCashierOnboarding() {
-        const { account_prompt_dialog, payment_agent } = this.root_store.modules.cashier;
+        const { payment_agent } = this.root_store.modules.cashier;
 
         if (!this.has_set_currency) {
             this.setHasSetCurrency();
         }
         this.setIsCashierOnboarding(true);
-        account_prompt_dialog.resetIsConfirmed();
 
         this.setLoading(true);
         // This TS error will be fixed when the constants.js migrated to the TS
@@ -341,9 +340,7 @@ export default class GeneralStore extends BaseStore {
     setIsP2pVisible(is_p2p_visible: boolean): void {
         this.is_p2p_visible = is_p2p_visible;
         if (!is_p2p_visible && window.location.pathname.endsWith(routes.cashier_p2p)) {
-            this.root_store.common.routeTo(
-                this.root_store.modules.cashier.account_prompt_dialog.last_location ?? routes.cashier_deposit
-            );
+            this.root_store.common.routeTo(routes.cashier_deposit);
         }
     }
 

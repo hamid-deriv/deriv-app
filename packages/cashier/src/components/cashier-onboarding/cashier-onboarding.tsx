@@ -10,14 +10,16 @@ import CashierOnboardingSideNote from './cashier-onboarding-side-note';
 import SideNote from 'Components/side-note';
 import type { TCashierOnboardingProvider } from './cashier-onboarding-providers';
 import { useCashierStore } from '../../stores/useCashierStores';
+import AccountPromptDialog from 'Components/account-prompt-dialog';
 
 type TCashierOnboardingProps = {
     setSideNotes?: (component: React.ReactElement[]) => void;
 };
 
 const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) => {
+    const [next_location, setNextLocation] = React.useState<string | null>(null);
     const { client, ui, common } = useStore();
-    const { general_store, payment_agent, account_prompt_dialog } = useCashierStore();
+    const { general_store, payment_agent } = useCashierStore();
     const {
         accounts,
         available_crypto_currencies,
@@ -46,7 +48,6 @@ const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) =
         toggleSetCurrencyModal,
     } = ui;
     const { is_payment_agent_visible_in_onboarding } = payment_agent;
-    const { shouldNavigateAfterPrompt } = account_prompt_dialog;
 
     const history = useHistory();
     const is_crypto = !!currency && isCryptocurrency(currency);
@@ -104,9 +105,10 @@ const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) =
         }
     };
 
-    const fiatAccountConditions = (next_location: string, current_location: string) => {
+    const fiatAccountConditions = (last_location: string) => {
         if (has_fiat_account) {
-            shouldNavigateAfterPrompt(next_location, current_location);
+            setNextLocation(last_location);
+            // setIsDeposit(false);
         } else {
             openRealAccountSignup('add_fiat');
         }
@@ -116,7 +118,8 @@ const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) =
         setDepositTarget(routes.cashier_deposit);
 
         if (is_crypto) {
-            fiatAccountConditions(routes.cashier_deposit, 'deposit');
+            fiatAccountConditions(routes.cashier_deposit);
+            setIsDeposit(true);
         } else {
             setIsDeposit(true);
         }
@@ -140,7 +143,8 @@ const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) =
         setDepositTarget(routes.cashier_p2p);
 
         if (is_crypto) {
-            fiatAccountConditions(routes.cashier_p2p, 'DP2P');
+            fiatAccountConditions(routes.cashier_p2p);
+            // setIsDeposit(false);
         } else {
             history.push(routes.cashier_p2p);
         }
@@ -208,6 +212,7 @@ const CashierOnboarding = observer(({ setSideNotes }: TCashierOnboardingProps) =
                     </div>
                 </ThemedScrollbars>
             </div>
+            <AccountPromptDialog last_location={next_location} onClose={() => setNextLocation(null)} />
         </div>
     );
 });

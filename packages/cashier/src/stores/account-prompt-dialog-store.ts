@@ -23,6 +23,7 @@ export default class AccountPromptDialogStore {
     last_location: string | null = null;
     current_location: string | null = null;
 
+    // @@@
     shouldNavigateAfterPrompt(next_location: string, current_location: string) {
         if (!this.is_confirmed) {
             this.last_location = next_location;
@@ -39,6 +40,7 @@ export default class AccountPromptDialogStore {
         this.is_confirmed = false;
     }
 
+    // @@@
     async onConfirm() {
         const { client } = this.root_store;
 
@@ -51,6 +53,7 @@ export default class AccountPromptDialogStore {
         if (isCryptocurrency(client?.currency) && has_fiat_account) await this.doSwitch();
     }
 
+    // @@@
     async doSwitch() {
         const { client, modules } = this.root_store;
         const { general_store } = modules.cashier;
@@ -70,10 +73,12 @@ export default class AccountPromptDialogStore {
         }
     }
 
+    // @@@
     onCancel() {
         this.should_show = false;
     }
 
+    // @@@
     continueRoute() {
         if (this.is_confirmed && this.last_location) {
             this.root_store.common.routeTo(this.last_location);
